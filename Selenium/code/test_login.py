@@ -11,7 +11,6 @@ class BaseCase:
     def setup(self, driver, config, request: FixtureRequest):
         self.driver = driver
         self.config = config
-        self.logger = logger
 
         self.login_page = LoginPage(driver)
         if self.authorize:
