@@ -31,7 +31,6 @@ class LoginPage(BasePage):
     url = 'https://park.vk.company/'
 
     def login(self, user, password):
-
         return MainPage(self.driver)
 
 
