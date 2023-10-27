@@ -54,3 +54,8 @@ class BasePage(object):
         self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
+
+    @allure.step('Fill in')
+    def fill_in(self, locator, query, timeout=None) -> WebElement:
+        elem = self.find(locator, timeout=timeout)
+        elem.send_keys(query)

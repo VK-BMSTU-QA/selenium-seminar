@@ -20,3 +20,9 @@ class MainPageLocators(BasePageLocators):
 
 class EventsPageLocators(BasePageLocators):
     pass
+
+class LoginPageLocators(BasePageLocators):
+    LOGIN = (By.LINK_TEXT, 'Войти')
+    USER = (By.NAME, 'login')
+    PASSWORD = (By.NAME, 'password')
+    SUBMIT_LOGIN = (By.NAME, 'submit_login')
