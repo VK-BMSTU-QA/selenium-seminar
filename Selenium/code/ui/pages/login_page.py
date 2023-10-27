@@ -2,6 +2,7 @@ from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 
+
 class LoginPage(BasePage):
     url = 'https://park.vk.company/'
     authorize = False
@@ -17,3 +18,6 @@ class LoginPage(BasePage):
         self.click(self.locators.SUBMIT_LOGIN)
 
         return MainPage(self.driver)
+
+    def has_error(self):
+        self.find(self.locators.ERROR_MESSAGE)

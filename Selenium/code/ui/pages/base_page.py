@@ -34,20 +34,8 @@ class BasePage(object):
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def find(self, locator, timeout=None):
+    def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
-
-    @allure.step('Search')
-    def search(self, query):
-        elem = self.find(self.locators.QUERY_LOCATOR_ID)
-        elem.send_keys(query)
-        go_button = self.find(self.locators.GO_BUTTON_LOCATOR)
-        go_button.click()
-        self.my_assert()
-
-    @allure.step("Step 1")
-    def my_assert(self):
-        assert 1 == 1
 
     @allure.step('Click')
     def click(self, locator, timeout=None) -> WebElement:
@@ -59,9 +47,10 @@ class BasePage(object):
     @allure.step('Fill in')
     def fill_in(self, locator, query, timeout=None) -> WebElement:
         elem = self.find(locator, timeout=timeout)
+        elem.clear()
         elem.send_keys(query)
         return elem
 
-    @allure.step('Redirect')
-    def await_redirect(self, url, timeout=None):
+    @allure.step('Check url')
+    def check_url(self, url, timeout=None):
         self.wait(timeout).until(EC.url_to_be(url))

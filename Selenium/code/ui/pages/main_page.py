@@ -1,6 +1,4 @@
 from selenium.webdriver.common.by import By
-
-import allure
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from selenium.webdriver.remote.webelement import WebElement

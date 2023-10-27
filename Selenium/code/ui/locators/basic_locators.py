@@ -6,14 +6,18 @@ class BasePageLocators:
 
 
 class MainPageLocators(BasePageLocators):
-    PEOPLE = (By.LINK_TEXT, 'Люди')
-    BLOGS = (By.LINK_TEXT, 'Блоги')
-    PROGRAM = (By.LINK_TEXT, 'Программа')
-    ALUMNI = (By.LINK_TEXT, 'Выпуски')
+    pass
 
 
 class LoginPageLocators(BasePageLocators):
     LOGIN = (By.LINK_TEXT, 'Войти')
+    ERROR_MESSAGE = (By.CLASS_NAME, 'error-message')
     USER = (By.NAME, 'login')
     PASSWORD = (By.NAME, 'password')
     SUBMIT_LOGIN = (By.NAME, 'submit_login')
+
+
+class SettingsPageLocators(BasePageLocators):
+    ABOUT = (By.ID, 'profile_about')
+    CLOTHES_SIZE = (By.ID, 'profile_clothing_size')
+    SUBMIT_PROFILE_EDIT = (By.NAME, 'submit_profile_edit')
