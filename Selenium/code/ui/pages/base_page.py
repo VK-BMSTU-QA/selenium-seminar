@@ -22,7 +22,8 @@ class BasePage(object):
         while time.time() - started < timeout:
             if self.driver.current_url == self.url:
                 return True
-        raise PageNotOpenedExeption(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+        raise PageNotOpenedExeption(
+            f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def __init__(self, driver):
         self.driver = driver
@@ -48,14 +49,19 @@ class BasePage(object):
     def my_assert(self):
         assert 1 == 1
 
-
     @allure.step('Click')
     def click(self, locator, timeout=None) -> WebElement:
         self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
+        return elem
 
     @allure.step('Fill in')
     def fill_in(self, locator, query, timeout=None) -> WebElement:
         elem = self.find(locator, timeout=timeout)
         elem.send_keys(query)
+        return elem
+
+    @allure.step('Redirect')
+    def await_redirect(self, url, timeout=None):
+        self.wait(timeout).until(EC.url_to_be(url))

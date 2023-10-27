@@ -2,11 +2,14 @@ from selenium.webdriver.common.by import By
 
 
 class BasePageLocators:
-    pass
+    PARENT = (By.XPATH, '..')
 
 
 class MainPageLocators(BasePageLocators):
-    pass
+    PEOPLE = (By.LINK_TEXT, 'Люди')
+    BLOGS = (By.LINK_TEXT, 'Блоги')
+    PROGRAM = (By.LINK_TEXT, 'Программа')
+    ALUMNI = (By.LINK_TEXT, 'Выпуски')
 
 
 class LoginPageLocators(BasePageLocators):
