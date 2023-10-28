@@ -26,6 +26,7 @@ class BasePage(object):
 
     def __init__(self, driver):
         self.driver = driver
+        self.driver.get(self.url)
         self.is_opened()
 
     def wait(self, timeout=None):

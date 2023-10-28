@@ -5,15 +5,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
+from selenium.webdriver.chrome.service import Service
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def driver(config):
     browser = config['browser']
     url = config['url']
     selenoid = config['selenoid']
     vnc = config['vnc']
     options = Options()
+    service = Service(executable_path=GeckoDriverManager().install())
     if selenoid:
         capabilities = {
             'browserName': 'chrome',
@@ -26,10 +28,11 @@ def driver(config):
             options=options,
             desired_capabilities=capabilities
         )
+    # TODO can make error
     elif browser == 'chrome':
-        driver = webdriver.Firefox(executable_path='/Users/konstantin.ermakov/Downloads/geckodriver')
-    elif browser == 'firefox':
-        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        service = Service()
+        options = webdriver.ChromeOptions()
+        driver = webdriver.Chrome(service=service, options=options) 
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
     driver.get(url)
@@ -40,16 +43,14 @@ def driver(config):
 
 def get_driver(browser_name):
     if browser_name == 'chrome':
-        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-    elif browser_name == 'firefox':
-        browser = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())    
     else:
         raise RuntimeError(f'Unsupported browser: "{browser_name}"')
     browser.maximize_window()
     return browser
 
 
-@pytest.fixture(scope='session', params=['chrome', 'firefox'])
+@pytest.fixture(scope='session', params=['chrome'])
 def all_drivers(config, request):
     url = config['url']
     browser = get_driver(request.param)
