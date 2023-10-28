@@ -2,6 +2,7 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 
 from ui.pages.base_page import BasePage
+from selenium.webdriver.common.by import By
 
 
 class BaseCase:
@@ -19,18 +20,22 @@ class BaseCase:
 
 @pytest.fixture(scope='session')
 def credentials():
-        pass
+        return {
+             'login': 'password',
+             'password': 'login'
+        }
 
 
 @pytest.fixture(scope='session')
 def cookies(credentials, config):
-        pass
+    return 
 
 
 class LoginPage(BasePage):
     url = 'https://park.vk.company/'
 
     def login(self, user, password):
+        self.click(By.XPATH, '//*[@id="header"]/div/div[2]')
         return MainPage(self.driver)
 
 
@@ -42,16 +47,19 @@ class TestLogin(BaseCase):
     authorize = True
 
     def test_login(self, credentials):
-        pass
+        login_page = LoginPage(self.driver)
+        login_page.click()
 
 
-class TestLK(BaseCase):
 
-    def test_lk1(self):
-        pass
 
-    def test_lk2(self):
-        pass
+# class TestLK(BaseCase):
 
-    def test_lk3(self):
-        pass
+#     def test_lk1(self):
+#         pass
+
+#     def test_lk2(self):
+#         pass
+
+#     def test_lk3(self):
+#         pass
