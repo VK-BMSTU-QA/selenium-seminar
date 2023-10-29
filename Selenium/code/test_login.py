@@ -15,5 +15,3 @@ class TestLogin(BaseCase):
 
         assert main_page.url != main_page.driver.driver.current_url
     
-
-
