@@ -18,6 +18,3 @@ class LoginPage(BasePage):
         self.click(self.locators.SUBMIT_LOGIN)
 
         return MainPage(self.driver)
-
-    def has_error(self):
-        self.find(self.locators.ERROR_MESSAGE)
