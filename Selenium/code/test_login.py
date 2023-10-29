@@ -9,6 +9,8 @@ import os
 from dotenv import load_dotenv
 
 from ui.pages.base_page import BasePage
+from ui.pages.login_page import LoginPage
+from ui.pages.main_page import MainPage
 
 
 load_dotenv()
@@ -60,45 +62,6 @@ def cookies():
         return None
 
 
-class LoginPage(BasePage):
-    url = "https://park.vk.company/"
-
-    def login(self, user, password):
-        self.driver.get(self.url)
-
-        # Жмем на кнопку Войти
-        login_button = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "/html/body/div[3]/div/div[2]/a"))
-        )
-        login_button.click()
-
-        # Вводим логин и пароль
-        login_input = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.NAME, "login"))
-        )
-        password_input = self.driver.find_element(By.NAME, "password")
-        login_input.send_keys(user)
-        password_input.send_keys(password)
-
-        # Жмем на кнопку Войти
-        submit_button = self.driver.find_element(By.ID, "popup-login-form-submit")
-        submit_button.click()
-
-        # Ждем загрузки страницы после входа
-        WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "username")))
-
-        # Загружаем куки в файл кук
-        cookies = self.driver.get_cookies()
-        with open("cookies.txt", "w") as f:
-            json.dump(cookies, f)
-
-        return MainPage(self.driver)
-
-
-class MainPage(BasePage):
-    url = "https://park.vk.company/feed/"
-
-
 class TestLogin(BaseCase):
     def test_login(self, credentials):
         assert MainPage.url in self.driver.current_url
@@ -120,49 +83,28 @@ class TestLK(BaseCase):
     program_url = "https://park.vk.company/curriculum/program/mine/"
     settings_url = "https://park.vk.company/cabinet/settings/"
 
-    def test_lk1(self):
-        # Переходим на страницу "Блоги"
-        self.driver.get(self.blog_url)
-
-        # Проверяем, что находимся на правильной странице по заголовку "Все блоги"
-        blog_header = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "page-header"))
+    @pytest.mark.parametrize("url,header_selector,expected_header,header_xpath,expected_moved_selector,expected_moved_header", [
+        ("https://park.vk.company/blog/", "page-header", "Все блоги", '//a[@href="'+"/people/"+'"]', "page-header", "Сообщество проекта"),
+        ("https://park.vk.company/curriculum/program/mine/", "curriculum-nav__item__link", "Мои учебные программы", '//a[@href="'+"/alumni/"+'"]', "page-header", "Наши выпускники")
+    ])
+    def test_lk_generic(self, url, header_selector, expected_header, header_xpath, expected_moved_selector, expected_moved_header):
+        self.driver.get(url)
+        
+        start_header = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.CLASS_NAME, header_selector))
         )
-        assert blog_header.text == "Все блоги"
+        assert start_header.text == expected_header
 
-        # Находим и кликаем на элемент "Люди" для перехода на страницу "Люди"
-        people_button = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/header/ul[2]/li[2]/a"))
+        header_button = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, header_xpath))
         )
-        people_button.click()
+        header_button.click()
 
         # Проверяем, что находимся на странице "Люди" по заголовку "Сообщество проекта"
-        community_header = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "page-header"))
+        expected_header = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.CLASS_NAME, expected_moved_selector))
         )
-        assert community_header.text == "Сообщество проекта"
-
-    def test_lk2(self):
-        # Переходим на страницу "Программа"
-        self.driver.get(self.program_url)
-
-        # Проверяем, что находимся на правильной странице по надписи "Мои учебные программы"
-        my_programs_link = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "curriculum-nav__item__link"))
-        )
-        assert my_programs_link.text == "Мои учебные программы"
-
-        # Находим и кликаем на элемент "Выпуски" для перехода на страницу "Выпуски"
-        alumni_button = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/header/ul[2]/li[4]/a"))
-        )
-        alumni_button.click()
-
-        # Проверяем, что находимся на странице "Выпуски" по заголовку "Наши выпускники"
-        alumni_header = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "page-header"))
-        )
-        assert alumni_header.text == "Наши выпускники"
+        assert expected_header.text == expected_moved_header
 
     def test_lk3(self):
         # Переходим на страницу настроек
