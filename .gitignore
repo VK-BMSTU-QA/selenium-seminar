@@ -1,0 +1,12 @@
+**/.idea*
+**/*.DS*
+**/.vs*
+
+geckodriver.log
+
+**/__pycache__*
+
+venv
+.env
+cookies.txt
+
