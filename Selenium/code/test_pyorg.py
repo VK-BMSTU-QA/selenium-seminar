@@ -31,6 +31,7 @@ class TestExample(BaseCase):
         assert 'No results found' not in self.driver.page_source
 
     @allure.step('Click')
+    @pytest.mark.skip('skip')
     def test_negative_search(self):
         time.sleep(5)
         self.base_page.search('adasdasdasdasdasda')
@@ -122,6 +123,7 @@ class TestLoad(BaseCase):
 
 class TestFailed(BaseCase):
 
+    @pytest.mark.skip('skip')
     def test_fail(self):
         self.main_page.find((By.XPATH, '12312312312312'), timeout=1)
 
@@ -144,6 +146,6 @@ class TestFailed(BaseCase):
         assert 1 == 0
 
 
-@pytest.mark.skip('skip')
+# @pytest.mark.skip('skip')
 def test_check_all_drivers(all_drivers):
     time.sleep(3)

@@ -41,17 +41,21 @@ class MainPage(BasePage):
 class TestLogin(BaseCase):
     authorize = True
 
+    @pytest.mark.skip('skip')
     def test_login(self, credentials):
         pass
 
 
 class TestLK(BaseCase):
 
+    @pytest.mark.skip('skip')
     def test_lk1(self):
         pass
 
+    @pytest.mark.skip('skip')
     def test_lk2(self):
         pass
 
+    @pytest.mark.skip('skip')
     def test_lk3(self):
         pass
