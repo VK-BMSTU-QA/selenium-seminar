@@ -23,29 +23,3 @@ class BaseCase:
             self.driver.refresh()
 
 
-@pytest.fixture(scope='session')
-def credentials():
-        
-        with open('files/creds.json') as cred_file:
-            creds_object = json.load(cred_file)
-        return {
-             'login': creds_object['login'],
-             'password': creds_object['pass']
-        }
-
-@pytest.fixture(scope='session')
-def false_credentials():
-     return {
-          'login':'admin',
-          'password':'admin'
-     }
-
-@pytest.fixture(scope='session')
-def cookies(credentials, config):
-    driver = get_driver(config['browser'])
-
-    login_page = LoginPage(driver)
-    login_page.login(credentials['login'], credentials['password'])
-    session_cookies = driver.get_cookies
-    driver.quit()
-    return session_cookies

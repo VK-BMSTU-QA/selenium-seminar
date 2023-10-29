@@ -7,6 +7,7 @@ from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 
 
+
 @pytest.fixture()
 def driver(config):
     browser = config['browser']
@@ -66,3 +67,4 @@ def base_page(driver):
 @pytest.fixture
 def main_page(driver):
     return MainPage(driver=driver)
+
