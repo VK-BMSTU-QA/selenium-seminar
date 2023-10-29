@@ -1,18 +1,30 @@
 from selenium.webdriver.common.by import By
-
-import allure
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
-from ui.pages.events_page import EventsPage
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver import ActionChains, Keys
 
 
 class MainPage(BasePage):
-
+    url = 'https://park.vk.company/feed/'
     locators = basic_locators.MainPageLocators()
 
-    @allure.step("Step 2")
-    def go_to_events_page(self):
-        events_button = self.find(self.locators.EVENTS)
-        # self.click(events_button)
-        self.click((By.ID, 'events'))
-        return EventsPage(self.driver)
+    def get_menu_section(self, menu_section_name):
+        return self.find((By.LINK_TEXT, menu_section_name))
+
+    def set_menu_section(self, menu_section_name):
+        self.click((By.LINK_TEXT, menu_section_name))
+
+    def search(self, query):
+        search: WebElement = self.find(self.locators.SEARCH)
+        search.click()
+
+        search_input: WebElement = self.driver.switch_to.active_element
+
+        actions = ActionChains(self.driver)
+        actions.move_to_element(search_input).send_keys(query).send_keys(Keys.ENTER).perform()
+
+    # @allure.step("Step 1")
+    # def my_assert(self, awaiting_text):
+    #     assert awaiting_text in self.driver.page_source
+
