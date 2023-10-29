@@ -7,12 +7,13 @@ from ui.pages.events_page import EventsPage
 
 
 class MainPage(BasePage):
-
+    url = 'https://park.vk.company/feed/'
     locators = basic_locators.MainPageLocators()
+    name_of_page = "Main"
 
     @allure.step("Step 2")
     def go_to_events_page(self):
         events_button = self.find(self.locators.EVENTS)
-        # self.click(events_button)
+
         self.click((By.ID, 'events'))
         return EventsPage(self.driver)
