@@ -1,0 +1,28 @@
+name: Selenium CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Selenium tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        run: |
+          sudo apt-get update -qy
+          sudo apt-get install -y python3.11 python3.11-distutils
+
+      - name: Install packages
+        run: |
+          python3.11 -m pip install selenium
+          python3.11 -m pip install pytest
+          python3.11 -m pip install allure-pytest
+          python3.11 -m pip install webdriver-manager
+
+      - name: Test login and lk
+        working-directory: ./Selenium/code
+        run: pytest test_login.py --no-header --no-summary -q

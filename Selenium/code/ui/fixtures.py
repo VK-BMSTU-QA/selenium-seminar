@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
@@ -10,10 +10,10 @@ from ui.pages.main_page import MainPage
 @pytest.fixture()
 def driver(config):
     browser = config['browser']
-    url = config['url']
     selenoid = config['selenoid']
     vnc = config['vnc']
     options = Options()
+    service = Service(executable_path="/Users/mochalovskiy/Technopark/QA/selenium-seminar/Selenium/chromedriver_mac_arm64/chromedriver-mac-x64/chromedriver")
     if selenoid:
         capabilities = {
             'browserName': 'chrome',
@@ -27,12 +27,12 @@ def driver(config):
             desired_capabilities=capabilities
         )
     elif browser == 'chrome':
-        driver = webdriver.Firefox(executable_path='/Users/konstantin.ermakov/Downloads/geckodriver')
+        options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
+        driver = webdriver.Chrome(options=options, service=service)
     elif browser == 'firefox':
         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
-    driver.get(url)
     driver.maximize_window()
     yield driver
     driver.quit()
@@ -40,7 +40,10 @@ def driver(config):
 
 def get_driver(browser_name):
     if browser_name == 'chrome':
-        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        options = Options()
+        service = Service(executable_path="/Users/mochalovskiy/Technopark/QA/selenium-seminar/Selenium/chromedriver_mac_arm64/chromedriver-mac-x64/chromedriver")
+        options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
+        browser = webdriver.Chrome(options=options, service=service)
     elif browser_name == 'firefox':
         browser = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
