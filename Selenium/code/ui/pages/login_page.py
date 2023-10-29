@@ -19,5 +19,5 @@ class LoginPage(BasePage):
 
         return MainPage(self.driver)
 
-    def has_error(self):
-        self.find(self.locators.ERROR_MESSAGE)
+    def error_message(self):
+        return self.find(self.locators.ERROR_MESSAGE).text

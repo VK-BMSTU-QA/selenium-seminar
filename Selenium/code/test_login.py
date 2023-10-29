@@ -17,4 +17,4 @@ class TestLogin(BaseCase):
     def test_login_invalid(self, invalid_credentials):
         with pytest.raises(PageNotOpenedExeption):
             self.login_page.login(*invalid_credentials)
-        self.login_page.has_error()
+        assert self.login_page.error_message() != ''
