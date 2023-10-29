@@ -10,8 +10,17 @@ class MainPage(BasePage):
     url = 'https://park.vk.company/blog/'
 
     @allure.step("Go to tab")
-    def go_to_tab(self, locator, timeout=5):
-        self.click(locator, timeout)
+    def go_to_tab(self, tab_name, timeout=5):
+        if tab_name == "BLOGS":
+            self.go_to_blogs_tab(timeout)
+        elif tab_name == "PEOPLE":
+            self.go_to_people_tab(timeout)
+        elif tab_name == "PEOPLE_RELEASES":
+            self.go_to_releases_tab(timeout)
+        elif tab_name == "PROGRAMS":
+            self.go_to_program_tab(timeout)
+        elif tab_name == "PROFILE":
+            self.go_to_profile(timeout)
 
     @allure.step("Go to people tab")
     def go_to_people_tab(self, timeout=5):

@@ -6,4 +6,3 @@ from ui.pages.base_page import BasePage
 class ProfilePage(BasePage):
 
     locators = basic_locators.ProfilePageLocators()
-
