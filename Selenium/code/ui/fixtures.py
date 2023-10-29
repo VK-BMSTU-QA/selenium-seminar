@@ -7,6 +7,8 @@ from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 
 
+chrome_driver_path: str = '/Users/kabdullin/Study/selenium-seminar/chromedriver'
+
 @pytest.fixture()
 def driver(config):
     browser = config['browser']
@@ -27,7 +29,7 @@ def driver(config):
             desired_capabilities=capabilities
         )
     elif browser == 'chrome':
-        driver = webdriver.Firefox(executable_path='/Users/konstantin.ermakov/Downloads/geckodriver')
+        driver = webdriver.Chrome(executable_path=chrome_driver_path)
     elif browser == 'firefox':
         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
