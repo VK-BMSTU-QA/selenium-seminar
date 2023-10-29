@@ -17,6 +17,9 @@ class BasePage(object):
     locators_main = basic_locators.MainPageLocators()
     url = 'https://park.vk.company/'
 
+    def open(self):
+        self.driver.get(self.url)
+
     def is_opened(self, timeout=15):
         started = time.time()
         while time.time() - started < timeout:

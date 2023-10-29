@@ -5,3 +5,4 @@ tmp
 cred.json
 .venv
 .vscode
+geckodriver.log
