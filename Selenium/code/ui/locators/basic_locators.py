@@ -20,3 +20,16 @@ class MainPageLocators(BasePageLocators):
 
 class EventsPageLocators(BasePageLocators):
     pass
+
+
+class LoginPageLocators(BasePageLocators):
+    LOGIN_BTN = (By.LINK_TEXT, 'Войти')
+    LOGIN_FIELD = (By.NAME, 'login')
+    PASSWD_FIELD = (By.NAME, 'password')
+    SUBMIT_LOGIN_BTN = (By.NAME, 'submit_login')
+    ERR_MSG = (By.CLASS_NAME, 'error-message')
+
+
+class SettingsPageLocators(BasePageLocators):
+    ABOUT_INPUT = (By.ID, 'profile_about')
+    SAVE_BTN = (By.NAME, 'submit_profile_edit')

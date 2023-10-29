@@ -1,7 +1,8 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
 
-from ui.pages.base_page import BasePage
+from ui.pages.base_page import PageNotOpenedExeption
+from ui.pages.login_page import LoginPage
 
 
 class BaseCase:
@@ -14,48 +15,24 @@ class BaseCase:
 
         self.login_page = LoginPage(driver)
         if self.authorize:
-            print('Do something for login')
+            for cookie in request.getfixturevalue('cookies'):
+                self.driver.add_cookie(cookie)
+
+            driver.refresh()
 
 
 @pytest.fixture(scope='session')
-def credentials():
-        pass
-
-
-@pytest.fixture(scope='session')
-def cookies(credentials, config):
-        pass
-
-
-class LoginPage(BasePage):
-    url = 'https://park.vk.company/'
-
-    def login(self, user, password):
-        return MainPage(self.driver)
-
-
-class MainPage(BasePage):
-    url = 'https://park.vk.company/feed/'
+def wrong_credentials():
+    return ['wronger', 'wrong_pswd']
 
 
 class TestLogin(BaseCase):
-    authorize = True
+    authorize = False
 
-    @pytest.mark.skip('skip')
     def test_login(self, credentials):
-        pass
+        self.login_page.login(credentials[0], credentials[1])
 
-
-class TestLK(BaseCase):
-
-    @pytest.mark.skip('skip')
-    def test_lk1(self):
-        pass
-
-    @pytest.mark.skip('skip')
-    def test_lk2(self):
-        pass
-
-    @pytest.mark.skip('skip')
-    def test_lk3(self):
-        pass
+    def test_wrong_login(self, wrong_credentials):
+        with pytest.raises(PageNotOpenedExeption):
+            self.login_page.login(wrong_credentials[0], wrong_credentials[1])
+        assert self.login_page.error_msg() == 'Учётные данные неверны'

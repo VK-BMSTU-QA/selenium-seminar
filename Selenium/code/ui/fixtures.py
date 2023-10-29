@@ -3,7 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from ui.pages.base_page import BasePage
+from ui.pages.login_page import LoginPage
 from ui.pages.main_page import MainPage
+from ui.pages.settings_page import SettingsPage
+from ui.pages.vk_main_page import VKMainPage
 
 
 @pytest.fixture()
@@ -58,6 +61,24 @@ def all_drivers(config, request):
     browser.quit()
 
 
+@pytest.fixture(scope='session')
+def credentials():
+    with open('files/credentials') as login_data:
+        return login_data.readline().split()
+
+
+@pytest.fixture(scope='session')
+def cookies(credentials, config):
+    driver = get_driver(config['browser'])
+    driver.get(config['url'])
+
+    LoginPage(driver).login(credentials[0], credentials[1])
+    cookies = driver.get_cookies()
+
+    driver.quit()
+    return cookies
+
+
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
@@ -66,3 +87,14 @@ def base_page(driver):
 @pytest.fixture
 def main_page(driver):
     return MainPage(driver=driver)
+
+
+@pytest.fixture
+def vk_main_page(driver):
+    return VKMainPage(driver=driver)
+
+
+@pytest.fixture
+def settings_page(driver):
+    driver.get(SettingsPage.url)
+    return SettingsPage(driver=driver)

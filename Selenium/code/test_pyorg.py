@@ -18,7 +18,7 @@ class TestExample(BaseCase):
         'query',
         [
             pytest.param(
-              'pycon'
+                'pycon'
             ),
             pytest.param(
                 'python'
@@ -105,7 +105,8 @@ class TestLoad(BaseCase):
     def test_download(self):
         self.driver.get('https://www.python.org/downloads/release/python-3100/')
         time.sleep(5)
-        self.main_page.click((By.XPATH, '//a[@href="https://www.python.org/ftp/python/3.10.0/python-3.10.0-embed-win32.zip"]'))
+        self.main_page.click(
+            (By.XPATH, '//a[@href="https://www.python.org/ftp/python/3.10.0/python-3.10.0-embed-win32.zip"]'))
         time.sleep(10)
 
     @pytest.fixture()
@@ -146,6 +147,6 @@ class TestFailed(BaseCase):
         assert 1 == 0
 
 
-# @pytest.mark.skip('skip')
+@pytest.mark.skip('skip')
 def test_check_all_drivers(all_drivers):
     time.sleep(3)
