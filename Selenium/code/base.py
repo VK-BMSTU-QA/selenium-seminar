@@ -1,6 +1,6 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
-# from ui.fixtures import get_driver
+
 from ui.pages.login_page import LoginPage
 
 
@@ -16,5 +16,3 @@ class BaseCase:
             for cookie in request.getfixturevalue('cookies'):
                 driver.add_cookie(cookie)
             driver.refresh()
-
-            print('Do something for login')

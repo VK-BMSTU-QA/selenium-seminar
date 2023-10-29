@@ -17,7 +17,6 @@ class BasePage(object):
     url = 'https://park.vk.company'
 
     locators = basic_locators.BasePageLocators()
-    locators_main = basic_locators.MainPageLocators()
 
     @allure.step('Is opened')
     def is_opened(self, timeout=5):

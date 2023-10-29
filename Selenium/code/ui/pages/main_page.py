@@ -10,8 +10,6 @@ from ui.pages.events_page import EventsPage
 class MainPage(BasePage):
     url = 'https://park.vk.company/feed/'
 
-    locators = basic_locators.MainPageLocators()
-
     @allure.step('Get menu item')
     def get_menu_item(self, menu_item_name: str) -> WebElement:
         return self.find((By.LINK_TEXT, menu_item_name))
