@@ -14,11 +14,7 @@ class TestMainPage(BaseCase):
     def go_to_tab(self, main_page, tab_name, tab_url):
         main_page.go_to_tab(tab_name)
         main_page.check_url(f'https://park.vk.company/{tab_url}')
-
-        tab = main_page.get_tab(tab_name)
-        tab_class = tab.find_element(
-            *BasePageLocators.PARENT).get_dom_attribute('class')
-        assert 'active' in tab_class
+        assert tab_name == main_page.get_active_tab()
 
     @pytest.mark.parametrize('first_tab,second_tab', tabs_data)
     def test_tabs(self, main_page, first_tab, second_tab):
