@@ -1,59 +1,51 @@
-import pytest
-from _pytest.fixtures import FixtureRequest
-
-from ui.pages.base_page import BasePage
-
-
-class BaseCase:
-    authorize = True
-
-    @pytest.fixture(scope='function', autouse=True)
-    def setup(self, driver, config, request: FixtureRequest):
-        self.driver = driver
-        self.config = config
-        self.logger = logger
-
-        self.login_page = LoginPage(driver)
-        if self.authorize:
-            print('Do something for login')
-
-
-@pytest.fixture(scope='session')
-def credentials():
-        pass
-
-
-@pytest.fixture(scope='session')
-def cookies(credentials, config):
-        pass
-
-
-class LoginPage(BasePage):
-    url = 'https://park.vk.company/'
-
-    def login(self, user, password):
-
-        return MainPage(self.driver)
-
-
-class MainPage(BasePage):
-    url = 'https://park.vk.company/feed/'
+from base import BaseCase
+from ui.fixtures import *
+from ui.pages.login_page import LoginPage
+from ui.pages.settings_page import SettingsPage
 
 
 class TestLogin(BaseCase):
-    authorize = True
+    authorize = False
 
+    @allure.story('Login')
     def test_login(self, credentials):
-        pass
+        login_page = LoginPage(self.driver)
+        email, password = credentials
+        main_page = login_page.login(email, password)
+        assert main_page.is_opened()
 
 
 class TestLK(BaseCase):
 
-    def test_lk1(self):
-        pass
+    @allure.story('Move to section')
+    @pytest.mark.parametrize(
+        'to_section, url',
+        [
+            pytest.param(
+                'Люди', 'https://park.vk.company/people/'
+            ),
+            pytest.param(
+                'Программа', 'https://park.vk.company/curriculum/program/mine/'
+            )
+        ]
+    )
+    def test_move_to(self, to_section, url):
+        feed_page = FeedPage(self.driver)
+        feed_page.move_to(to_section)
 
-    def test_lk2(self):
-        pass
+        assert self.driver.current_url.startswith(url)
 
-    def test_lk3(self):
-        pass
+    @allure.story('Edit bio')
+    def test_edit_bio(self):
+        feed_page = FeedPage(self.driver)
+        feed_page.move_to_settings()
+        settings_page = SettingsPage(self.driver)
+
+        assert settings_page.is_opened()
+
+        expected = 'hello world'
+        settings_page.edit_bio('hello world')
+        self.driver.refresh()
+        actual = settings_page.get_bio()
+
+        assert expected == actual
