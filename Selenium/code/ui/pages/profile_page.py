@@ -10,32 +10,32 @@ from selenium.webdriver.support.ui import Select
 class ProfilePage(BasePage):
     locators = basic_locators.ProfileLocators()
     url = 'https://park.vk.company/cabinet/settings/'
-    nameOfPage = "Profile"
+    name_of_page = "Profile"
 
     @allure.step('Change cloth size')
-    def changeSize(self, newSize, timeout = 5):
-        clothesSelect = self.find(self.locators.CLOTHES_LOCATOR, timeout)
-        select = Select(clothesSelect)
-        select.select_by_value(newSize)
+    def change_size(self, new_size, timeout = 5):
+        clothes_select = self.find(self.locators.CLOTHES_LOCATOR, timeout)
+        select = Select(clothes_select)
+        select.select_by_value(new_size)
 
         self.click(self.locators.SAVE_LOCATOR)
 
     @allure.step('Clear size')
-    def clearSize(self):
-        self.changeSize("")
+    def clear_size(self):
+        self.change_size("")
 
     @allure.step('Clear size')
-    def getCurrentSize(self):
+    def get_current_size(self):
         selector = Select(self.find(self.locators.CLOTHES_LOCATOR))
         return selector.first_selected_option.get_attribute("value")
 
-    def changeAbout(self, text):
-        textInput = self.find(self.locators.ABOUT_LOCATOR)
-        textInput.clear()
+    def change_about(self, text):
+        text_input = self.find(self.locators.ABOUT_LOCATOR)
+        text_input.clear()
 
-        textInput.send_keys(text)
+        text_input.send_keys(text)
     
-    def getAboutInfo(self):
-        aboutField = self.find(self.locators.ABOUT_LOCATOR)
-        return aboutField.get_attribute("value")
+    def get_about_info(self):
+        about_field = self.find(self.locators.ABOUT_LOCATOR)
+        return about_field.get_attribute("value")
 

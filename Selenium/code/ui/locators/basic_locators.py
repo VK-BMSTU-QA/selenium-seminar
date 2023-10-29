@@ -26,30 +26,33 @@ class LoginLocators(BasePageLocators):
     PASSWORD_LOCATOR = (By.NAME, 'password')
 
 class TestLocators(BasePageLocators):
-    pathToMenu = '//*[@id="header"]/ul[contains(@class,"js-main-menu")]/'
+    ENTER_LOCATOR = (
+        By.XPATH,
+        '//a[contains(@class, button-login)]'
+    )
     BLOGS_LOCATOR = (
         By.XPATH,
-        pathToMenu + 'li[1]'
+        '//a[@href="/blog/"]'
         )
     PEOPLE_LOCATOR = (
         By.XPATH,
-        pathToMenu + 'li[2]'
+        '//a[@href="/people/"]'
         )
     PROGRAMS_LOCATOR = (
         By.XPATH,
-        pathToMenu + 'li[3]'
+        '//a[@href="/curriculum/program/"]'
         )
     GRADUATIONS_LOCATOR = (
         By.XPATH,
-        pathToMenu + 'li[4]'
+        '//a[@href="/alumni/"]'
         )
     SHEDULE_LOCATOR = (
         By.XPATH,
-        pathToMenu + 'li[5]'
+        '//a[@href="/schedule/"]'
         )
     JOBS_LOCATOR = (
         By.XPATH,
-        pathToMenu + 'li[6]'
+        '//a[@href="/career/"]'
         )
     PROFILE_LOCATOR = (
         By.XPATH,
@@ -62,9 +65,9 @@ class ProfileLocators(BasePageLocators):
         '//*[@id="profile_clothing_size"]'
     )
     SAVE_LOCATOR = (
-        By.XPATH,
-        '//button[@name="submit_profile_edit"]'
-    )
+       By.NAME, 
+       'submit_profile_edit'
+       )
     ABOUT_LOCATOR = (
         By.XPATH,
         '//*[@id="profile_about"]'

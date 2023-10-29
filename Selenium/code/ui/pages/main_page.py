@@ -9,7 +9,7 @@ from ui.pages.events_page import EventsPage
 class MainPage(BasePage):
     url = 'https://park.vk.company/feed/'
     locators = basic_locators.MainPageLocators()
-    nameOfPage = "Main"
+    name_of_page = "Main"
 
     @allure.step("Step 2")
     def go_to_events_page(self):
