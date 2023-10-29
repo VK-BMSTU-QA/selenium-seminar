@@ -2,7 +2,7 @@ import time
 
 import allure
 from selenium.webdriver.remote.webelement import WebElement
-from ui.locators import basic_locators
+from Selenium.code.ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -12,10 +12,9 @@ class PageNotOpenedExeption(Exception):
 
 
 class BasePage(object):
-
     locators = basic_locators.BasePageLocators()
     locators_main = basic_locators.MainPageLocators()
-    url = 'https://www.python.org/'
+    url = 'https://park.vk.company/'
 
     def is_opened(self, timeout=15):
         started = time.time()
@@ -47,7 +46,6 @@ class BasePage(object):
     @allure.step("Step 1")
     def my_assert(self):
         assert 1 == 1
-
 
     @allure.step('Click')
     def click(self, locator, timeout=None) -> WebElement:

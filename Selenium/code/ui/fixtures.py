@@ -3,8 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
-from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
+from Selenium.code.ui.pages.base_page import BasePage
+from Selenium.code.ui.pages.main_page import MainPage
+from Selenium.code.ui.pages.settings_page import SettingsPage
+from Selenium.code.ui.pages.login_page import LoginPage
 
 
 @pytest.fixture()
@@ -66,3 +68,14 @@ def base_page(driver):
 @pytest.fixture
 def main_page(driver):
     return MainPage(driver=driver)
+
+
+@pytest.fixture
+def login_page(driver):
+    return LoginPage(driver=driver)
+
+
+@pytest.fixture
+def settings_page(driver):
+    driver.get('https://park.vk.company/cabinet/settings/')
+    return SettingsPage(driver=driver)
