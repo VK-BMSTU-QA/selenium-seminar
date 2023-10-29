@@ -109,3 +109,15 @@ class TestLK(BaseCase):
         page.changeSize(optionToTake)
 
         assert page.getCurrentSize() == optionToTake
+    
+    def test_changeAbout(self):
+        aboutText = 'Студент группы ИУ3-73Б?'
+        page = ProfilePage(self.driver)
+        page.changeAbout("")
+
+        # Default value is set
+        assert page.getAboutInfo() == ""
+
+        page.changeAbout(aboutText)
+        assert page.getAboutInfo() == aboutText
+

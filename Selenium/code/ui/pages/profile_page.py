@@ -28,3 +28,14 @@ class ProfilePage(BasePage):
     def getCurrentSize(self):
         selector = Select(self.find(self.locators.CLOTHES_LOCATOR))
         return selector.first_selected_option.get_attribute("value")
+
+    def changeAbout(self, text):
+        textInput = self.find(self.locators.ABOUT_LOCATOR)
+        textInput.clear()
+
+        textInput.send_keys(text)
+    
+    def getAboutInfo(self):
+        aboutField = self.find(self.locators.ABOUT_LOCATOR)
+        return aboutField.get_attribute("value")
+

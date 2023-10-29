@@ -65,6 +65,10 @@ class ProfileLocators(BasePageLocators):
         By.XPATH,
         '//button[@name="submit_profile_edit"]'
     )
+    ABOUT_LOCATOR = (
+        By.XPATH,
+        '//*[@id="profile_about"]'
+    )
 
 class EventsPageLocators(BasePageLocators):
     pass
