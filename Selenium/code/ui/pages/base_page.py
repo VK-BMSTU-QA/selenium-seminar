@@ -2,18 +2,15 @@ import time
 
 import allure
 from selenium.webdriver.remote.webelement import WebElement
-from Selenium.code.ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class PageNotOpenedExeption(Exception):
+class PageNotOpenedException(Exception):
     pass
 
 
 class BasePage(object):
-    locators = basic_locators.BasePageLocators()
-    locators_main = basic_locators.MainPageLocators()
     url = 'https://park.vk.company/'
 
     def is_opened(self, timeout=15):
@@ -21,7 +18,7 @@ class BasePage(object):
         while time.time() - started < timeout:
             if self.driver.current_url == self.url:
                 return True
-        raise PageNotOpenedExeption(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+        raise PageNotOpenedException(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def __init__(self, driver):
         self.driver = driver
@@ -35,20 +32,11 @@ class BasePage(object):
     def find(self, locator, timeout=None):
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
-    @allure.step('Search')
-    def search(self, query):
-        elem = self.find(self.locators.QUERY_LOCATOR_ID)
-        elem.send_keys(query)
-        go_button = self.find(self.locators.GO_BUTTON_LOCATOR)
-        go_button.click()
-        self.my_assert()
-
-    @allure.step("Step 1")
-    def my_assert(self):
-        assert 1 == 1
+    def find_visible(self, locator, timeout=None):
+        return self.wait(timeout).until(EC.visibility_of(self.find(locator)))
 
     @allure.step('Click')
-    def click(self, locator, timeout=None) -> WebElement:
+    def click(self, locator, timeout=None):
         self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()

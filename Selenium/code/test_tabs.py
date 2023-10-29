@@ -16,10 +16,8 @@ class TestTab(BaseCase):
     ]
 
     @pytest.mark.parametrize('original_url,tab_locator,target_url', tabs_test_data)
-    def test_tab_redirect(self, original_url, tab_locator, target_url):
+    def test_tab_redirect(self, main_page, original_url, tab_locator, target_url):
         self.driver.get('https://park.vk.company/' + original_url)
-
-        tab_element = self.driver.find_element(*tab_locator)
-        tab_element.click()
+        main_page.click(tab_locator)
 
         assert self.driver.current_url == 'https://park.vk.company/' + target_url

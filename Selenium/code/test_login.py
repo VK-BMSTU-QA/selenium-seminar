@@ -1,6 +1,6 @@
 import pytest
 from base import BaseCase, cookies, credentials, invalid_credentials
-from ui.pages.base_page import PageNotOpenedExeption
+from ui.pages.login_page import PageNotOpenedException
 
 
 class TestLogin(BaseCase):
@@ -8,9 +8,10 @@ class TestLogin(BaseCase):
 
     def test_login_valid(self, credentials):
         self.login_page.login(*credentials)
-        assert self.login_page.url == 'https://park.vk.company/feed/'
+        assert self.driver.current_url == 'https://park.vk.company/feed/'
 
     def test_login_invalid(self, invalid_credentials):
-        with pytest.raises(PageNotOpenedExeption):
+        with pytest.raises(PageNotOpenedException):
             self.login_page.login(*invalid_credentials)
+
         self.login_page.check_for_errors()

@@ -8,13 +8,12 @@ class SettingsPage(BasePage):
     locators = SettingsLocators()
 
     def fill_about_input(self, value):
-        about_field = self.driver.find_element(*self.locators.ABOUT_INPUT)
+        about_field = self.find(self.locators.ABOUT_INPUT)
         about_field.clear()
         about_field.send_keys(value)
 
     def submit(self):
-        submit_btn = self.driver.find_element(*self.locators.SUBMIT_BTN)
-        submit_btn.click()
+        self.click(self.locators.SUBMIT_BTN)
 
     def get_about_value(self):
-        return self.driver.find_element(*self.locators.ABOUT_INPUT).text
+        return self.find(self.locators.ABOUT_INPUT).text
