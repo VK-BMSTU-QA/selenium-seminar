@@ -1,18 +1,23 @@
-from selenium.webdriver.common.by import By
-
 import allure
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
+
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from ui.pages.events_page import EventsPage
 
 
 class MainPage(BasePage):
+    url = 'https://park.vk.company/feed/'
 
     locators = basic_locators.MainPageLocators()
 
-    @allure.step("Step 2")
-    def go_to_events_page(self):
-        events_button = self.find(self.locators.EVENTS)
-        # self.click(events_button)
-        self.click((By.ID, 'events'))
-        return EventsPage(self.driver)
+    @allure.step('Get menu item')
+    def get_menu_item(self, menu_item_name: str) -> WebElement:
+        return self.find((By.LINK_TEXT, menu_item_name))
+
+    @allure.step('Go to menu item')
+    def go_to_menu_item(self, menu_item_name: str,
+                        menu_item_url: str) -> EventsPage:
+        self.get_menu_item(menu_item_name).click()
+        return EventsPage(self.driver, menu_item_url)

@@ -1,59 +1,24 @@
 import pytest
-from _pytest.fixtures import FixtureRequest
 
-from ui.pages.base_page import BasePage
-
-
-class BaseCase:
-    authorize = True
-
-    @pytest.fixture(scope='function', autouse=True)
-    def setup(self, driver, config, request: FixtureRequest):
-        self.driver = driver
-        self.config = config
-        self.logger = logger
-
-        self.login_page = LoginPage(driver)
-        if self.authorize:
-            print('Do something for login')
-
-
-@pytest.fixture(scope='session')
-def credentials():
-        pass
-
-
-@pytest.fixture(scope='session')
-def cookies(credentials, config):
-        pass
-
-
-class LoginPage(BasePage):
-    url = 'https://park.vk.company/'
-
-    def login(self, user, password):
-
-        return MainPage(self.driver)
-
-
-class MainPage(BasePage):
-    url = 'https://park.vk.company/feed/'
+from base import BaseCase
+from ui.pages.base_page import PageNotOpenedExeption
+from ui.pages.login_page import LoginPage
 
 
 class TestLogin(BaseCase):
-    authorize = True
+    authorize = False
 
-    def test_login(self, credentials):
-        pass
+    def test_login_success(self, login_page: LoginPage, credentials):
+        login_page.login(**credentials)
 
+    def test_login_wrong_user(self, login_page: LoginPage, credentials):
+        with pytest.raises(PageNotOpenedExeption):
+            login_page.login('wrong_user@mail.ru', credentials['password'])
 
-class TestLK(BaseCase):
+        assert login_page.has_errors()
 
-    def test_lk1(self):
-        pass
+    def test_login_wrong_password(self, login_page: LoginPage, credentials):
+        with pytest.raises(PageNotOpenedExeption):
+            login_page.login(credentials['user'], 'wrong_password')
 
-    def test_lk2(self):
-        pass
-
-    def test_lk3(self):
-        pass
+        assert login_page.has_errors()
