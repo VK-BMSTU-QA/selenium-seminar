@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import Select
 class LoginPage(BasePage):
     url = 'https://park.vk.company/pages/index/?next=/feed/#auth'
     locators = basic_locators.LoginLocators()
+    nameOfPage = "Login"
 
     def writeToField(self, locator, dataToWrite):
         element = self.find(locator)
@@ -24,5 +25,5 @@ class LoginPage(BasePage):
     def login(self, user, password):
         self.writeLoginAndPass(user, password)
         self.click(self.locators.LOGIN_BUTTON_LOCATOR)
-        
-        return MainPage(self.driver)
+
+        return self.driver

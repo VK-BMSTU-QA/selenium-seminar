@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import Select
 class ProfilePage(BasePage):
     locators = basic_locators.ProfileLocators()
     url = 'https://park.vk.company/cabinet/settings/'
+    nameOfPage = "Profile"
 
     @allure.step('Change cloth size')
     def changeSize(self, newSize, timeout = 5):

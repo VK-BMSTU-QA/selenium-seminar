@@ -30,12 +30,11 @@ class BaseCase:
         self.config = config
 
         if self.authorize:
+            print("Need auth")
             self.cookies = cookies
             if not checkDomain(self.driver):
                 self.driver.get('https://park.vk.company')
             addCookies(self.cookies, self.driver)
-        else:
-            self.login_page = LoginPage(driver)
 
 
 
@@ -49,7 +48,7 @@ def cookies(credentials, driver):
         password = credentials.get("password")
         LoginPage(driver).login(login, password)
 
-        return setup.driver.get_cookies()
+        return driver.get_cookies()
 
 def checkDomain(driver):
     current = driver.current_url
@@ -65,12 +64,16 @@ class TestLogin(BaseCase):
     authorize = False
 
     def test_login(self, credentials):
+        login_page = LoginPage(self.driver)
+
         login = credentials.get("login")
         password = credentials.get("password")
 
-        page = self.login_page.login(login, password)
+        login_page.login(login, password)
+        page = MainPage(self.driver)
+
         # Profile exist on page
-        assert page.find(TestLocators.PROFILE_LOCATOR) != None
+        assert page.find(basic_locators.TestLocators.PROFILE_LOCATOR) != None
 
 class TestLK(BaseCase):
     @pytest.mark.parametrize(

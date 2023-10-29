@@ -53,7 +53,7 @@ class TestLocators(BasePageLocators):
         )
     PROFILE_LOCATOR = (
         By.XPATH,
-        '//[@id="dropdown-user"]'
+        '//*[@id="dropdown-user"]'
         )
     
 class ProfileLocators(BasePageLocators):
