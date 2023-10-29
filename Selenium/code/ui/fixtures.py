@@ -7,6 +7,7 @@ from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 
 
+
 @pytest.fixture()
 def driver(config):
     browser = config['browser']
@@ -27,7 +28,7 @@ def driver(config):
             desired_capabilities=capabilities
         )
     elif browser == 'chrome':
-        driver = webdriver.Firefox(executable_path='/Users/konstantin.ermakov/Downloads/geckodriver')
+        driver = webdriver.Chrome()
     elif browser == 'firefox':
         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
@@ -40,7 +41,7 @@ def driver(config):
 
 def get_driver(browser_name):
     if browser_name == 'chrome':
-        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        browser = webdriver.Chrome()
     elif browser_name == 'firefox':
         browser = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     else:
@@ -66,3 +67,4 @@ def base_page(driver):
 @pytest.fixture
 def main_page(driver):
     return MainPage(driver=driver)
+

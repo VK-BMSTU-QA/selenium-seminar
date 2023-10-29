@@ -1,32 +1,25 @@
-from contextlib import contextmanager
-
 import pytest
 from _pytest.fixtures import FixtureRequest
-from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
 
-CLICK_RETRY = 3
+from ui.pages.base_page import BasePage
+from ui.pages.login_page import LoginPage
+from selenium.webdriver.common.by import By
+from ui.fixtures import get_driver
+import json
 
 
 class BaseCase:
-    driver = None
-
-    @contextmanager
-    def switch_to_window(self, current, close=False):
-        for w in self.driver.window_handles:
-            if w != current:
-                self.driver.switch_to.window(w)
-                break
-        yield
-        if close:
-            self.driver.close()
-        self.driver.switch_to.window(current)
+    authorize = True
 
     @pytest.fixture(scope='function', autouse=True)
-    def setup(self, driver, config, logger, request: FixtureRequest):
+    def setup(self, driver, config, request: FixtureRequest):
         self.driver = driver
         self.config = config
-        self.logger = logger
 
-        self.base_page: BasePage = (request.getfixturevalue('base_page'))
-        self.main_page: MainPage = (request.getfixturevalue('main_page'))
+        self.login_page = LoginPage(driver)
+        if self.authorize:
+            for cookie in request.getfixturevalue('cookies'):
+                self.driver.add_cookie(cookie)
+            self.driver.refresh()
+
+
