@@ -12,5 +12,5 @@ class TestLoginPage(BaseCase):
 
     def test_login_invalid(self):
         with pytest.raises(PageNotOpenedExeption):
-            self.login_page.login("user", "password")
+            self.login_page.login("user@mail.ru", "password")
         self.login_page.has_error()

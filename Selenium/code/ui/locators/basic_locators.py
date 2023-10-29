@@ -6,8 +6,10 @@ class BasePageLocators:
 
 
 class MainPageLocators(BasePageLocators):
-    pass
-
+    SEARCH = (By.CLASS_NAME, 'js-show-search')
+    FIRST_SEARCH_ITEM = (By.XPATH, "//div[@class='people-list']//tr//div[@class='name']//a")
+    LIKE_USER = (By.XPATH, "//div[@class='vote-up vote-btn']")
+    HAS_LIKE = (By.XPATH, "//div[@class='profile-top']//div[contains(@class, 'voted-up')]")
 
 class LoginPageLocators(BasePageLocators):
     LOGIN = (By.LINK_TEXT, 'Войти')

@@ -42,7 +42,7 @@ def driver(config):
 
 def get_driver(browser_name):
     if browser_name == 'chrome':
-        browser = webdriver.Chrome()
+        browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     elif browser_name == 'firefox':
         browser = webdriver.Firefox()
     else:

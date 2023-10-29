@@ -44,8 +44,8 @@ class BasePage(object):
         elem.click()
         return elem
 
-    @allure.step('Fill in')
-    def fill_in(self, locator, query, timeout=None) -> WebElement:
+    @allure.step('Fill unput')
+    def fill_input(self, locator, query, timeout=None) -> WebElement:
         elem = self.find(locator, timeout=timeout)
         elem.clear()
         elem.send_keys(query)
@@ -54,3 +54,7 @@ class BasePage(object):
     @allure.step('Check url')
     def check_url(self, url, timeout=None):
         self.wait(timeout).until(EC.url_to_be(url))
+
+    @allure.step('Check text on page')
+    def check_text_on_page(self, text):
+        return text in self.driver.page_source

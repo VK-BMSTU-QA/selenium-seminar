@@ -15,20 +15,13 @@ class BaseCase:
         self.driver = driver
         self.config = config
 
-        self.login_page = LoginPage(driver)
+        self.login_page: LoginPage = LoginPage(driver)
 
         if self.authorize:
             for cookie in request.getfixturevalue('cookies'):
                 self.driver.add_cookie(cookie)
 
             self.driver.refresh()
-
-
-@pytest.fixture(scope='session')
-def credentials():
-    with open('cred.json') as f:
-        return json.load(f)
-
 
 @pytest.fixture(scope='session')
 def cookies(credentials, config):
@@ -40,3 +33,10 @@ def cookies(credentials, config):
 
     driver.quit()
     return cookies
+
+
+@pytest.fixture(scope='session')
+def credentials():
+    with open('cred.json') as f:
+        return json.load(f)
+
