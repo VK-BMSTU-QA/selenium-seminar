@@ -15,5 +15,9 @@ class SettingsPage(BasePage):
     def submit(self):
         self.click(self.locators.SUBMIT_BTN)
 
+    def update_about_input(self, value):
+        self.fill_about_input(value)
+        self.submit()
+
     def get_about_value(self):
         return self.find(self.locators.ABOUT_INPUT).text

@@ -29,7 +29,7 @@ def driver(config):
             desired_capabilities=capabilities
         )
     elif browser == 'chrome':
-        driver = webdriver.Firefox()
+        driver = webdriver.Chrome()
     elif browser == 'firefox':
         driver = webdriver.Firefox()
     else:
