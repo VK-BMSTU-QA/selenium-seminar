@@ -7,7 +7,7 @@ class BasePageLocators:
 
 class MainPageLocators(BasePageLocators):
     ACTIVE_TAB = (
-        By.XPATH,  '//*[contains(@class, "nav")]//*[contains(@class, "active")]')
+        By.XPATH, '//*[contains(@class, "nav")]//*[contains(@class, "active")]')
 
 
 class LoginPageLocators(BasePageLocators):

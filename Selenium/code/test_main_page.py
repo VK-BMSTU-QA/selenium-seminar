@@ -16,7 +16,7 @@ class TestMainPage(BaseCase):
         main_page.check_url(f'https://park.vk.company/{tab_url}')
         assert tab_name == main_page.get_active_tab()
 
-    @pytest.mark.parametrize('first_tab,second_tab', tabs_data)
-    def test_tabs(self, main_page, first_tab, second_tab):
-        self.go_to_tab(main_page, *first_tab)
-        self.go_to_tab(main_page, *second_tab)
+    @pytest.mark.parametrize('initial_tab,next_tab', tabs_data)
+    def test_tabs(self, main_page, initial_tab, next_tab):
+        self.go_to_tab(main_page, *initial_tab)
+        self.go_to_tab(main_page, *next_tab)

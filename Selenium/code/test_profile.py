@@ -4,7 +4,7 @@ import pytest
 
 
 class TestProfile(BaseCase):
-    @pytest.mark.parametrize('contents', ['Тестируем...'])
+    @pytest.mark.parametrize('contents', ['Тестируем...', 'Студент ИУ6'])
     def test_about(self, settings_page, contents):
         settings_page.edit_about(contents)
         assert settings_page.about_contents() == contents
