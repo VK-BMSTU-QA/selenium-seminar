@@ -97,3 +97,10 @@ def cookies(credentials, config):
     cooks = driver.get_cookies()
     driver.quit()
     return cooks
+
+
+@pytest.fixture
+def restore_settings_about(profile_settings_page: ProfileSettingsPage):
+    old_about = profile_settings_page.get_about()
+    yield
+    profile_settings_page.change_about(old_about)
