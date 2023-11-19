@@ -1,5 +1,5 @@
-from ui.pages.base_page import BasePage
 from ui.locators import basic_locators
+from ui.pages.base_page import BasePage
 from ui.pages.feed_page import FeedPage
 
 
@@ -7,7 +7,6 @@ class LoginPage(BasePage):
     url = 'https://park.vk.company/'
 
     locators = basic_locators.LoginPageLocators
-
 
     def login(self, email, password):
         self.logger.debug("Starting authorization")

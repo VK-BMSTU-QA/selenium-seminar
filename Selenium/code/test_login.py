@@ -2,6 +2,7 @@ from base import BaseCase
 from ui.fixtures import *
 from ui.pages.login_page import LoginPage
 from ui.pages.settings_page import SettingsPage
+from ui.pages.feed_page import FeedPage
 
 
 class TestLogin(BaseCase):
@@ -44,8 +45,12 @@ class TestLK(BaseCase):
         assert settings_page.is_opened()
 
         expected = 'hello world'
+        bio_before = settings_page.get_bio()
         settings_page.edit_bio('hello world')
         self.driver.refresh()
         actual = settings_page.get_bio()
 
         assert expected == actual
+
+        settings_page.edit_bio(bio_before)
+

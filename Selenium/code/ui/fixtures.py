@@ -3,33 +3,28 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
-from ui.pages.base_page import BasePage
+
 from ui.pages.login_page import LoginPage
-from ui.pages.feed_page import FeedPage
 
 
 @pytest.fixture(scope='function')
 def driver(config, temp_dir):
     url = config['url']
     with allure.step('Init browser'):
-        browser = get_driver(config, download_dir=temp_dir)
+        browser = get_driver(config)
         browser.get(url)
 
     yield browser
     browser.quit()
 
 
-def get_driver(config, download_dir=None):
+def get_driver(config):
     browser_name = config['browser']
     selenoid = config['selenoid']
     vnc = config['vnc']
 
     if browser_name == 'chrome':
         options = Options()
-
-        if download_dir is not None:
-            options.add_experimental_option("prefs", {"download.default_directory": download_dir})
 
         if selenoid:
             options.add_experimental_option("prefs", {"download.default_directory": '/home/\'Загрузки\'/'})
@@ -75,4 +70,3 @@ def cookies(credentials, config):
     cookies = driver.get_cookies()
     driver.quit()
     return cookies
-

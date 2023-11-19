@@ -3,10 +3,10 @@ import time
 
 import allure
 from selenium.common import StaleElementReferenceException
-from selenium.webdriver.remote.webelement import WebElement
-from ui.locators import basic_locators
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from ui.locators import basic_locators
 
 CLICK_RETRY = 3
 
